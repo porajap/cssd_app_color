@@ -238,34 +238,30 @@ class _ColorPageState extends State<ColorPage> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 20,),
-                                Column(
+                                SizedBox(height: 10,),
+                                Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text('Coordinate'),
+                                    SizedBox(width: 20,),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text('X : $positionX'),
-                                        Text('Y : $positionY', textAlign: TextAlign.start,),
+                                        Text('X : ${positionX.toStringAsFixed(3)}'),
+                                        Text('Y : ${positionY.toStringAsFixed(3)}'),
                                       ],
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 20,),
+                                SizedBox(height: 10,),
                                 Text('R : $colorR'),
                                 Text('G : $colorG'),
                                 Text('B : $colorB'),
                               ],
                             ),
                           ),
-                          Container(
-                            height: 150,
-                            width: 150,
-                            color: Colors.blueAccent,
-                          )
                         ],
                       ),
                       SizedBox(height: 10),
@@ -297,10 +293,11 @@ class _ColorPageState extends State<ColorPage> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 10),
                       Container(
                         alignment: Alignment.centerRight,
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Text('By Teerapat.O'),
+                        child: Text('By Teerapat.O' ,style:  TextStyle(fontWeight: FontWeight.bold),),
                       ),
                     ],
                   ),
@@ -353,7 +350,7 @@ class _ColorPageState extends State<ColorPage> {
       } else if (_character == SingingCharacter.lowry) {
         result = (colorR - 0.4786) / 0.4486;
       }
-      edtResult.text = result.toString();
+      edtResult.text = result.toStringAsFixed(3);
     });
 
     _stateController.add(Color(hex));

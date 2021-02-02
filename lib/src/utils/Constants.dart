@@ -10,7 +10,7 @@ class Constants{
   static const String LOGIN_ROUTE = "/login";
 
   //app font
-  static const String APP_FONT = "PoppinsLight";
+  static const String APP_FONT = "Bahnschrift";
 
   //images
   static const String IMAGE_DIR = "lib/src/assets/images";
