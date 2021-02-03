@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cssd_app_color/src/models/ColorsSettingModel.dart';
 import 'package:cssd_app_color/src/pages/color/color_setting.dart';
+import 'package:cssd_app_color/src/services/ColorService.dart';
 import 'package:cssd_app_color/src/utils/CompressAndGetFile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -18,6 +20,9 @@ class ColorPage extends StatefulWidget {
 enum SingingCharacter { bradford, lowry }
 
 class _ColorPageState extends State<ColorPage> {
+  ColorService colorService = ColorService();
+
+  ColorSettingModel settingData;
   SingingCharacter _character = SingingCharacter.bradford;
 
   int documentStatus = 3;
@@ -41,15 +46,23 @@ class _ColorPageState extends State<ColorPage> {
 
   int colorR = 0, colorG = 0, colorB = 0;
 
+  double bradfordA, bradfordB, lowryA, lowryB;
+
   @override
   void initState() {
     currentKey = useSnapshot ? paintKey : imageKey;
-
+    getSetting();
     super.initState();
   }
 
-  void _getSetting() async {
-
+  Future<String> getSetting() async {
+    ColorSettingModel settingData = await colorService.getSetting();
+    setState(() {
+      bradfordA = double.parse(settingData.bradfordA);
+      bradfordB = double.parse(settingData.bradfordB);
+      lowryA = double.parse(settingData.lowryA);
+      lowryB = double.parse(settingData.lowryB);
+    });
   }
 
   void _showPhotoLibrary(BuildContext contextBloc) async {
@@ -104,7 +117,7 @@ class _ColorPageState extends State<ColorPage> {
       MaterialPageRoute(
         builder: (context) => ColorSetting(),
       ),
-    );
+    ).then((value) => getSetting());
   }
 
   @override
@@ -273,13 +286,17 @@ class _ColorPageState extends State<ColorPage> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text('Coordinate'),
-                                    SizedBox(width: 20,),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
@@ -290,7 +307,9 @@ class _ColorPageState extends State<ColorPage> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Text('R : $colorR'),
                                 Text('G : $colorG'),
                                 Text('B : $colorB'),
@@ -332,7 +351,10 @@ class _ColorPageState extends State<ColorPage> {
                       Container(
                         alignment: Alignment.centerRight,
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Text('By Teerapat.O' ,style:  TextStyle(fontWeight: FontWeight.bold),),
+                        child: Text(
+                          'By Teerapat.O',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ],
                   ),
@@ -366,7 +388,7 @@ class _ColorPageState extends State<ColorPage> {
     int pixel32 = photo.getPixelSafe(px.toInt() + 15, py.toInt() - 82);
     int hex = abgrToArgb(pixel32);
     Color myColor = Color(hex);
-    String _stringRgb = 'red: ${myColor.red} green: ${myColor.green} blue: ${myColor.blue}';
+    String _stringRgb = 'red: ${myColor.red} green: ${myColor.green} blue: ${myColor.blue} bradA: ${bradfordA.toString()} bradB: ${bradfordB.toString()} lowryA: ${lowryA.toString()} lowryB: ${lowryB.toString()}';
     print(_stringRgb);
     setState(() {
       rgbText = _stringRgb;
@@ -380,11 +402,11 @@ class _ColorPageState extends State<ColorPage> {
 
       double result = 0.0;
       if (_character == SingingCharacter.bradford) {
-        result = (colorR - 1.159) / 2.453;
+        result = (colorR - bradfordB) / bradfordA;
       } else if (_character == SingingCharacter.lowry) {
-        result = (colorR - 0.4786) / 0.4486;
+        result = (colorR - lowryB) / lowryA;
       }
-      edtResult.text = result.toStringAsFixed(3);
+      edtResult.text = result.toStringAsFixed(4);
     });
 
     _stateController.add(Color(hex));
