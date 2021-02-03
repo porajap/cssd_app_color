@@ -359,12 +359,11 @@ class _ColorPageState extends State<ColorPage> {
 
     if (!useSnapshot) {
       double widgetScale = box.size.width / photo.width;
-      print(py);
       px = (px / widgetScale);
       py = (py / widgetScale);
     }
 
-    int pixel32 = photo.getPixelSafe(px.toInt(), py.toInt() + 90);
+    int pixel32 = photo.getPixelSafe(px.toInt() + 15, py.toInt() - 82);
     int hex = abgrToArgb(pixel32);
     Color myColor = Color(hex);
     String _stringRgb = 'red: ${myColor.red} green: ${myColor.green} blue: ${myColor.blue}';
@@ -372,7 +371,7 @@ class _ColorPageState extends State<ColorPage> {
     setState(() {
       rgbText = _stringRgb;
 
-      positionX = px - 15;
+      positionX = px;
       positionY = py - 90;
 
       colorR = myColor.red;
