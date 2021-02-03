@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cssd_app_color/src/pages/color/color_setting.dart';
 import 'package:cssd_app_color/src/utils/CompressAndGetFile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -97,22 +98,47 @@ class _ColorPageState extends State<ColorPage> {
         });
   }
 
+  void _goPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ColorSetting(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('PromoveCheck'),
         actions: [
-          InkWell(
-            onTap: () {
-              _showOptions(context);
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Icon(
-                Icons.camera_alt_rounded,
+          Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  _showOptions(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Icon(
+                    Icons.camera_alt_rounded,
+                  ),
+                ),
               ),
-            ),
+              SizedBox(width: 10),
+              InkWell(
+                onTap: () {
+                  _goPage(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Icon(
+                    Icons.settings,
+                  ),
+                ),
+              ),
+            ],
           )
         ],
         centerTitle: true,
