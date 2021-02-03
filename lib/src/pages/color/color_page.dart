@@ -212,29 +212,33 @@ class _ColorPageState extends State<ColorPage> {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: FileImage(imagePath),
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                              Transform(
-                                transform: Matrix4.translationValues(positionX, positionY, 0.0),
-                                child: Container(
-                                  width: 30,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                                    border: Border.all(
-                                      width: 2,
+                              Positioned(
+                                left: positionX,
+                                top: positionY,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.add,
                                       color: Colors.red,
-                                      style: BorderStyle.solid,
+                                      size: 16,
                                     ),
-                                  ),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.red,
-                                  ),
+                                    Container(
+                                      width: 4,
+                                      height: 60,
+                                      color: Colors.red,
+                                    ),
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                                    )
+                                  ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -360,7 +364,7 @@ class _ColorPageState extends State<ColorPage> {
       py = (py / widgetScale);
     }
 
-    int pixel32 = photo.getPixelSafe(px.toInt(), py.toInt());
+    int pixel32 = photo.getPixelSafe(px.toInt(), py.toInt() + 90);
     int hex = abgrToArgb(pixel32);
     Color myColor = Color(hex);
     String _stringRgb = 'red: ${myColor.red} green: ${myColor.green} blue: ${myColor.blue}';
@@ -369,7 +373,7 @@ class _ColorPageState extends State<ColorPage> {
       rgbText = _stringRgb;
 
       positionX = px - 15;
-      positionY = py - 15;
+      positionY = py - 90;
 
       colorR = myColor.red;
       colorG = myColor.green;
