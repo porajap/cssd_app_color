@@ -14,10 +14,10 @@ class ColorPage extends StatefulWidget {
   _ColorPageState createState() => _ColorPageState();
 }
 
-enum SingingCharacter { brandford, lowry }
+enum SingingCharacter { bradford, lowry }
 
 class _ColorPageState extends State<ColorPage> {
-  SingingCharacter _character = SingingCharacter.brandford;
+  SingingCharacter _character = SingingCharacter.bradford;
 
   int documentStatus = 3;
   var currentStep = 0;
@@ -43,7 +43,12 @@ class _ColorPageState extends State<ColorPage> {
   @override
   void initState() {
     currentKey = useSnapshot ? paintKey : imageKey;
+
     super.initState();
+  }
+
+  void _getSetting() async {
+
   }
 
   void _showPhotoLibrary(BuildContext contextBloc) async {
@@ -134,9 +139,9 @@ class _ColorPageState extends State<ColorPage> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Brandford'),
+                      title: const Text('Bradford'),
                       leading: Radio(
-                        value: SingingCharacter.brandford,
+                        value: SingingCharacter.bradford,
                         groupValue: _character,
                         onChanged: (SingingCharacter value) {
                           setState(() {
@@ -345,7 +350,7 @@ class _ColorPageState extends State<ColorPage> {
       colorB = myColor.blue;
 
       double result = 0.0;
-      if (_character == SingingCharacter.brandford) {
+      if (_character == SingingCharacter.bradford) {
         result = (colorR - 1.159) / 2.453;
       } else if (_character == SingingCharacter.lowry) {
         result = (colorR - 0.4786) / 0.4486;
