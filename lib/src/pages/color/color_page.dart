@@ -70,9 +70,10 @@ class _ColorPageState extends State<ColorPage> {
     BotToast.showLoading();
     File _file = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 100);
     setState(() {
+      photo = null;
       BotToast.closeAllLoading();
       imagePath = _file;
-       loadImageBundleBytes();
+       // loadImageBundleBytes();
     });
   }
 
@@ -80,9 +81,10 @@ class _ColorPageState extends State<ColorPage> {
     BotToast.showLoading();
     File _file = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 100);
     setState(() {
+      photo = null;
       BotToast.closeAllLoading();
       imagePath = _file;
-      loadImageBundleBytes();
+      // loadImageBundleBytes();
     });
   }
 
@@ -216,7 +218,7 @@ class _ColorPageState extends State<ColorPage> {
                         key: paintKey,
                         child: GestureDetector(
                           onPanDown: (details) {
-                            // searchPixel(details.globalPosition);
+                            searchPixel(details.globalPosition);
                           },
                           onPanUpdate: (details) {
                             searchPixel(details.globalPosition);
@@ -378,9 +380,9 @@ class _ColorPageState extends State<ColorPage> {
   }
 
   void searchPixel(Offset globalPosition) async {
-    // if (photo == null) {
-    //   await (useSnapshot ? loadSnapshotBytes() : loadImageBundleBytes());
-    // }
+    if (photo == null) {
+      await (useSnapshot ? loadSnapshotBytes() : loadImageBundleBytes());
+    }
     _calculatePixel(globalPosition);
   }
 
@@ -393,8 +395,11 @@ class _ColorPageState extends State<ColorPage> {
 
     if (!useSnapshot) {
       double widgetScale = box.size.width / photo.width;
-      px = (px / widgetScale);
-      py = (py / widgetScale);
+      // px = (px / widgetScale);
+      // py = (py / widgetScale);
+      print("------------------ $widgetScale");
+      print("------------------ ${box.size.width}");
+      print("------------------ ${photo.width}");
     }
 
     int pixel32 = photo.getPixelSafe(px.toInt(), py.toInt());
