@@ -402,7 +402,7 @@ class _ColorPageState extends State<ColorPage> {
       print("------------------ ${photo.width}");
     }
 
-    int pixel32 = photo.getPixelSafe(px.toInt(), py.toInt());
+    int pixel32 = photo.getPixelSafe(px.toInt(), py.toInt() - 82);
     int hex = abgrToArgb(pixel32);
     Color myColor = Color(hex);
     String _stringRgb =
@@ -411,8 +411,8 @@ class _ColorPageState extends State<ColorPage> {
     setState(() {
       rgbText = _stringRgb;
 
-      positionX = px;
-      positionY = py;
+      positionX = px - 15;
+      positionY = py - 90;
 
       colorR = myColor.red;
       colorG = myColor.green;
