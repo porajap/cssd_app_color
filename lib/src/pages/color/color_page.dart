@@ -71,9 +71,9 @@ class _ColorPageState extends State<ColorPage> {
     File _file = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 100);
     setState(() {
       photo = null;
+      useSnapshot = true;
       BotToast.closeAllLoading();
       imagePath = _file;
-       // loadImageBundleBytes();
     });
   }
 
@@ -82,9 +82,9 @@ class _ColorPageState extends State<ColorPage> {
     File _file = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 100);
     setState(() {
       photo = null;
+      useSnapshot = true;
       BotToast.closeAllLoading();
       imagePath = _file;
-      // loadImageBundleBytes();
     });
   }
 
@@ -395,8 +395,8 @@ class _ColorPageState extends State<ColorPage> {
 
     if (!useSnapshot) {
       double widgetScale = box.size.width / photo.width;
-      // px = (px / widgetScale);
-      // py = (py / widgetScale);
+      px = (px / widgetScale);
+      py = (py / widgetScale);
       print("------------------ $widgetScale");
       print("------------------ ${box.size.width}");
       print("------------------ ${photo.width}");
