@@ -19,8 +19,6 @@ class CompressAndGetFile {
       file.absolute.path,
       targetPath,
       quality: 100,
-      minWidth: 1500,
-      minHeight: 1500,
     );
 
     return fileCompress;

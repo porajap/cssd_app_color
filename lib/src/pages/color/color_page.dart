@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:cssd_app_color/src/models/ColorsSettingModel.dart';
 import 'package:cssd_app_color/src/pages/color/color_setting.dart';
 import 'package:cssd_app_color/src/services/ColorService.dart';
@@ -66,19 +67,23 @@ class _ColorPageState extends State<ColorPage> {
   }
 
   void _showPhotoLibrary(BuildContext contextBloc) async {
-    File _file = await ImagePicker.pickImage(source: ImageSource.gallery);
-    File _fileCompress = await CompressAndGetFile().compressFile(file: _file);
+    File _file = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 100);
+    // File _fileCompress = await CompressAndGetFile().compressFile(file: _file);
+    BotToast.showLoading();
     setState(() {
+      BotToast.closeAllLoading();
       useSnapshot = true;
-      imagePath = _fileCompress;
+      imagePath = _file;
     });
   }
 
   void _showCamera(BuildContext contextBloc) async {
-    File _file = await ImagePicker.pickImage(source: ImageSource.camera);
-    File _fileCompress = await CompressAndGetFile().compressFile(file: _file);
+    File _file = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 100);
+    // File _fileCompress = await CompressAndGetFile().compressFile(file: _file);
+    BotToast.showLoading();
     setState(() {
-      imagePath = _fileCompress;
+      BotToast.closeAllLoading();
+      imagePath = _file;
       useSnapshot = true;
     });
   }
