@@ -69,7 +69,6 @@ class _ColorPageState extends State<ColorPage> {
   void _showPhotoLibrary(BuildContext contextBloc) async {
     BotToast.showLoading();
     File _file = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 100);
-    BotToast.showLoading();
     setState(() {
       BotToast.closeAllLoading();
       useSnapshot = true;
