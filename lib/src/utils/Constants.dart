@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Constants{
   //app name
-  static const String APP_NAME = "N Sterile";
+  static const String APP_NAME = "PromoveCheck";
 
   //routes
   static const String COLOR_ROUTE = "/color";
