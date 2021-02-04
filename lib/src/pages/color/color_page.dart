@@ -71,18 +71,18 @@ class _ColorPageState extends State<ColorPage> {
     File _file = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 100);
     setState(() {
       BotToast.closeAllLoading();
-      useSnapshot = true;
       imagePath = _file;
+      useSnapshot ? loadSnapshotBytes() : loadImageBundleBytes();
     });
   }
 
   void _showCamera(BuildContext contextBloc) async {
-      BotToast.showLoading();
+    BotToast.showLoading();
     File _file = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 100);
     setState(() {
       BotToast.closeAllLoading();
       imagePath = _file;
-      useSnapshot = true;
+      useSnapshot ? loadSnapshotBytes() : loadImageBundleBytes();
     });
   }
 
@@ -216,10 +216,16 @@ class _ColorPageState extends State<ColorPage> {
                         key: paintKey,
                         child: GestureDetector(
                           onPanDown: (details) {
-                            searchPixel(details.globalPosition);
+                            // searchPixel(details.globalPosition);
                           },
                           onPanUpdate: (details) {
                             searchPixel(details.globalPosition);
+                          },
+                          onForcePressUpdate: (details) {
+                            print("------- onForcePressUpdate ----------");
+                          },
+                          onForcePressStart: (details) {
+                            print("------- onForcePressStart ----------");
                           },
                           child: Stack(
                             children: [
@@ -372,7 +378,9 @@ class _ColorPageState extends State<ColorPage> {
   }
 
   void searchPixel(Offset globalPosition) async {
-    await useSnapshot ? loadSnapshotBytes() : loadImageBundleBytes();
+    if (photo == null) {
+      await (useSnapshot ? loadSnapshotBytes() : loadImageBundleBytes());
+    }
     _calculatePixel(globalPosition);
   }
 
@@ -389,16 +397,17 @@ class _ColorPageState extends State<ColorPage> {
       py = (py / widgetScale);
     }
 
-    int pixel32 = photo.getPixelSafe(px.toInt() + 15, py.toInt() - 82);
+    int pixel32 = photo.getPixelSafe(px.toInt(), py.toInt());
     int hex = abgrToArgb(pixel32);
     Color myColor = Color(hex);
-    String _stringRgb = 'red: ${myColor.red} green: ${myColor.green} blue: ${myColor.blue} bradA: ${bradfordA.toString()} bradB: ${bradfordB.toString()} lowryA: ${lowryA.toString()} lowryB: ${lowryB.toString()}';
+    String _stringRgb =
+        'red: ${myColor.red} green: ${myColor.green} blue: ${myColor.blue} bradA: ${bradfordA.toString()} bradB: ${bradfordB.toString()} lowryA: ${lowryA.toString()} lowryB: ${lowryB.toString()}';
     print(_stringRgb);
     setState(() {
       rgbText = _stringRgb;
 
       positionX = px;
-      positionY = py - 90;
+      positionY = py;
 
       colorR = myColor.red;
       colorG = myColor.green;
@@ -414,11 +423,11 @@ class _ColorPageState extends State<ColorPage> {
     });
 
     _stateController.add(Color(hex));
-    _stateController.onResume;
   }
 
   Future<void> loadImageBundleBytes() async {
     ByteData imageBytes = await rootBundle.load(imagePath.path);
+    print("---------------loadImageBundleBytes----------------- ");
     setImageBytes(imageBytes);
   }
 
@@ -426,10 +435,9 @@ class _ColorPageState extends State<ColorPage> {
     RenderRepaintBoundary boxPaint = paintKey.currentContext.findRenderObject();
     ui.Image capture = await boxPaint.toImage();
     ByteData imageBytes = await capture.toByteData(format: ui.ImageByteFormat.png);
+    capture.dispose();
     setImageBytes(imageBytes);
     print("---------------loadSnapshotBytes----------------- ");
-    _stateController.onPause;
-    capture.dispose();
   }
 
   void setImageBytes(ByteData imageBytes) {
