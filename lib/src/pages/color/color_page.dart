@@ -72,7 +72,7 @@ class _ColorPageState extends State<ColorPage> {
     setState(() {
       BotToast.closeAllLoading();
       imagePath = _file;
-      useSnapshot ? loadSnapshotBytes() : loadImageBundleBytes();
+       loadImageBundleBytes();
     });
   }
 
@@ -82,7 +82,7 @@ class _ColorPageState extends State<ColorPage> {
     setState(() {
       BotToast.closeAllLoading();
       imagePath = _file;
-      useSnapshot ? loadSnapshotBytes() : loadImageBundleBytes();
+      loadImageBundleBytes();
     });
   }
 
@@ -378,9 +378,9 @@ class _ColorPageState extends State<ColorPage> {
   }
 
   void searchPixel(Offset globalPosition) async {
-    if (photo == null) {
-      await (useSnapshot ? loadSnapshotBytes() : loadImageBundleBytes());
-    }
+    // if (photo == null) {
+    //   await (useSnapshot ? loadSnapshotBytes() : loadImageBundleBytes());
+    // }
     _calculatePixel(globalPosition);
   }
 
