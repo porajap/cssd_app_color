@@ -67,8 +67,8 @@ class _ColorPageState extends State<ColorPage> {
   }
 
   void _showPhotoLibrary(BuildContext contextBloc) async {
+    BotToast.showLoading();
     File _file = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 100);
-    // File _fileCompress = await CompressAndGetFile().compressFile(file: _file);
     BotToast.showLoading();
     setState(() {
       BotToast.closeAllLoading();
@@ -78,9 +78,8 @@ class _ColorPageState extends State<ColorPage> {
   }
 
   void _showCamera(BuildContext contextBloc) async {
+      BotToast.showLoading();
     File _file = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 100);
-    // File _fileCompress = await CompressAndGetFile().compressFile(file: _file);
-    BotToast.showLoading();
     setState(() {
       BotToast.closeAllLoading();
       imagePath = _file;
@@ -92,6 +91,7 @@ class _ColorPageState extends State<ColorPage> {
     setState(() {
       useSnapshot = false;
     });
+    _stateController.onPause;
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -415,6 +415,7 @@ class _ColorPageState extends State<ColorPage> {
     });
 
     _stateController.add(Color(hex));
+    _stateController.onResume;
   }
 
   Future<void> loadImageBundleBytes() async {
@@ -427,6 +428,8 @@ class _ColorPageState extends State<ColorPage> {
     ui.Image capture = await boxPaint.toImage();
     ByteData imageBytes = await capture.toByteData(format: ui.ImageByteFormat.png);
     setImageBytes(imageBytes);
+    print("---------------loadSnapshotBytes----------------- ");
+    _stateController.onPause;
     capture.dispose();
   }
 
